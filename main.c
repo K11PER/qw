@@ -127,6 +127,13 @@ int main(){
         printf("Ошибка, не удалось открыть файл\n");
         return 1;
     }
+    // FILE* airp12 = fopen(file, "rb");
+    // if (airp == NULL) {
+    //     printf("Ошибка, не удалось открыть файл\n");
+    //     return 1;
+    // }
+
+
 
     fread(&file_header, sizeof(file_header), 1, airp);
     fread(&info_header, sizeof(info_header), 1, airp);
@@ -134,8 +141,10 @@ int main(){
     unsigned int height = info_header.height;
     unsigned int width = info_header.width;
     unsigned char pict[width*height*3];
+    unsigned char pict1[width*height*3];
 
     fread(pict, sizeof(pict), 1, airp);
+    memcpy(&pict1, &pict, sizeof(pict));
 
  
 
@@ -144,7 +153,17 @@ int main(){
         fwrite(&file_header, sizeof(file_header), 1, airp1);
         fwrite(&info_header, sizeof(info_header), 1, airp1);
         fwrite(pict, sizeof(pict), 1, airp1);
+        for(size_t i = 0; i < sizeof(pict1); i++){
+            pict1[i] -= pict[i];
+            pict1[i] *= 200; 
+        }
+
+        FILE* airp2 = fopen("newpictraz.bmp", "wb");
+        fwrite(&file_header, sizeof(file_header), 1, airp2);
+        fwrite(&info_header, sizeof(info_header), 1, airp2);
+        fwrite(pict1, sizeof(pict1), 1, airp2);
         fclose(airp1);
+        fclose(airp2);
         printf("Успех\n");
     }
     
