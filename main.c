@@ -120,13 +120,6 @@ int main(){
     } else {
         strcat(file, ".bmp");
     }
-
-    // if(file[-1] == "p" & file[-2] == "m"& file[-3] == "b" & file[-4] == "."){
-    //     char file = file;
-    // }
-    // else{
-    //     strcat(file, ".bmp");
-    // }
         
     
     FILE* airp = fopen(file, "rb");
